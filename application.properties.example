@@ -1,0 +1,6 @@
+spring.datasource.url=jdbc:postgresql://localhost:5432/messenger_db
+spring.datasource.username=YOUR_DB_USERNAME
+spring.datasource.password=YOUR_DB_PASSWORD
+
+jwt.secret=YOUR_SECRET_KEY
+jwt.expiration=86400000
