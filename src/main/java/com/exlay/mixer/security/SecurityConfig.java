@@ -47,7 +47,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/ws/**").permitAll()
-                        .requestMatchers("/", "/index.html", "/app.js", "/style.css").permitAll()
+                        .requestMatchers("/", "/index.html", "/register.html", "/chat.html",
+                                "/styles.css", "/auth.css", "/auth.js",
+                                "/chat.css", "/chat.js","/favicon.ico").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

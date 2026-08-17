@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign In</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="auth.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="auth.js" defer></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="auth-page">
+    <div class="auth-wrap">
+        <div class="auth-head">
+            <h2 id="SignIn-head">Sign In</h2>
+        </div>
+        <form id="login-form" class="auth-form">
+            <div class="email-field">
+                <div class="email-text">
+                    <label for="email">Email</label>
+
+                </div>
+                <div class="email-form">
+                    <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required>
+
+                </div>
+            </div>
+            <div class="password-field">
+                <div class="password-text">
+                    <label for="password">Password</label>
+
+                </div>
+                <div class="password-form">
+                    <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required>
+
+                </div>
+            </div>
+            <div class="login-button">
+                <button type="submit" class="submit" id="submitBtn">
+                    <span class="btn-label" id="submitLabel">Log in</span>
+                </button>
+            </div>
+
+        </form>
+        <div class="register-link">
+            <span>Need an account?</span>
+            <a href="register.html">Register</a>
+        </div>
+
+    </div>
+
+</body>
+</html>

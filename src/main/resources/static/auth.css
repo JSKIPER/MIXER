@@ -1,0 +1,85 @@
+.auth-page{
+    min-height: 100vh;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+}
+
+.auth-wrap {
+    background: #18181B;
+    width: min(100%, 400px);
+    padding: 20px 32px 32px;
+    border: 1px solid #2A2A2A;
+    border-radius: 12px;
+}
+label {
+    display: block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: #9AA0AC;
+    margin-bottom: 7px;
+    letter-spacing: 0.01em;
+}
+
+input{
+    background: #18181B;
+    color: white;
+    width: 100%;
+    border: 1px solid #2A2A2A;
+    border-radius: 12px;
+    padding: 12px 14px;
+    font-size: 15px;
+}
+
+button{
+    background: #FF6B35;
+    width: 100%;
+    color: white;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 13px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.3s ease;
+    box-shadow: 0px 0 5px 4px rgba(255, 107, 53, 0.15);
+}
+button:hover{
+    background: #E85A2A;
+}
+#SignIn-head{
+    text-align: center;
+    margin:  0;
+}
+
+.email-form input:focus,
+.username-form input:focus,
+.tag-form input:focus,
+.password-form input:focus {
+    border-color: #FF6B35;
+    outline: none;
+    box-shadow: 0px 0 5px 3px rgba(255, 107, 53, 0.15);
+}
+
+.register-link{
+    margin-top: 12px;
+    font-size: 12.5px;
+    text-align: left;
+}
+.register-link span{
+    color: #9AA0AC;
+}
+
+.register-link a{
+    color: #FF6B35;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.register-link a:hover {
+    text-decoration: underline;
+}
+
+

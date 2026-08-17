@@ -1,0 +1,19 @@
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Inter', sans-serif;
+    color: white;
+    background:
+            radial-gradient(
+                    ellipse 80% 60% at 30% 0%,
+                    rgba(255, 107, 53, 0.16),
+                    transparent 60%
+            ),
+            radial-gradient(
+                    ellipse 60% 50% at 100% 100%,
+                    rgba(255, 140, 80, 0.07),
+                    transparent 60%
+            ),
+            #111111;
+}
