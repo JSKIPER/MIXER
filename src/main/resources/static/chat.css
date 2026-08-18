@@ -1,0 +1,21 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.messenger{
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    height: 100vh;
+}
+
+.sidebar{
+    background-color: darkred;
+}
+
+.chat-area{
+    background: #18181B;
+}
+.search-input input{
+    width: 100%;
+}
