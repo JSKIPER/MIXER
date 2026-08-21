@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="chat.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="chat.js" defer></script>
     <title>Mixer</title>
 </head>
 <body>
@@ -19,30 +20,93 @@
                 <input type="text" id="searchInput" placeholder="Search">
             </div>
         </div>
-        <ul class="chat-list">
-            <li>test</li>
-            <li>test2</li>
-            <li>test3</li>
+        <ul class="chat-list" id="chat-list">
+            <li class="chat-item">
+                <div class="avatar">
+                    <span class="avatar-username">PS</span>
+                </div>
+                <div class="chat-meta">
+                    <span class="chat-name">Alex Adams</span>
+                </div>
+            </li>
+            <li class="chat-item">
+                <div class="avatar">
+                    <span class="avatar-username">PS</span>
+                </div>
+                <div class="chat-meta">
+                    <span class="chat-name">Alex Adams</span>
+                </div>
+            </li>
+            
+
+
+
         </ul>
-        <h1>huy</h1>
+
 
     </aside>
     <section class="chat-area">
-        <div class="chat-navbar">
-            <h1>navbar</h1>
+        <div id="navbar" class="chat-navbar">
+            <div class="avatar">
+                <span class="avatar-username">PS</span>
+            </div>
+            <div class="chat-meta">
+                <span class="chat-name">Alex Adams</span>
+            </div>
         </div>
         <div class="message-area">
-            <ul class="messages">
-                <li>test</li>
-                <li>test2</li>
-                <li>test3</li>
+            <ul class="messages" id="message-list">
+                <li class="message-in">
+                    <div class="buble-in">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+                    </div>
+                </li>
+                <li class=message-out>
+                    <div class="buble-out">
+                        Lorem ipsum dolor sit amet, minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+                    </div>
+                </li>
+
+                <li class="message-in">
+                    <div class="buble-in">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+                    </div>
+                </li>
+                <li class=message-out>
+                    <div class="buble-out">
+                        Lorem ipsum dolor sit amet, minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+                    </div>
+                </li>
+
+                <li class="message-in">
+                    <div class="buble-in">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+                    </div>
+                </li>
+                <li class=message-out>
+                    <div class="buble-out">
+                        Lorem ipsum dolor sit amet, minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+                    </div>
+                </li>
+
+                <li class="message-in">
+                    <div class="buble-in">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+                    </div>
+                </li>
+                <li class=message-out>
+                    <div class="buble-out">
+                        Lorem ipsum dolor sit amet, minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+                    </div>
+                </li>
+
             </ul>
         </div>
         <div class="composer">
             <div class="composer-input">
-                <textarea id="messageInput" placeholder="Write a message..." rows="1"></textarea>
+                <textarea id="messageInput" placeholder="Message" rows="1"></textarea>
                 <button type="submit" class="submit" id="submitBtn">
-                    <span class="btn-label" id="submitLabel">SEND</span>
+                    <svg viewBox="0 0 24 24" fill="white"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"></path></svg>
                 </button>
             </div>
         </div>

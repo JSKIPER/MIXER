@@ -17,3 +17,9 @@ body {
             ),
             #111111;
 }
+
+:root {
+    --bg-color: #18181B;
+    --panel-color: #2A2A2A;
+    --text-color: white;
+}
