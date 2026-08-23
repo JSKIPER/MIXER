@@ -5,6 +5,16 @@ const messageList = document.getElementById("message-list")
 let activeChat = null;
 let activeChatUserId = null;
 
+const messageInput = document.getElementById("messageInput");
+const submitBtn = document.getElementById("submitBtn");
+submitBtn.addEventListener("click", () => sendMessage());
+messageInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+});
+
 if (!token) {
     window.location.href = "index.html";
 }
@@ -140,6 +150,36 @@ function createMessageItem(message){
     return messageItem;
 
 
+}
+
+async function sendMessage(){
+    const content = messageInput.value.trim();
+    if (!content) return;
+    if (!activeChat) return;
+
+    try{
+        response = await fetch(`/api/messages/chat/${activeChat.chatId}`, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ content })
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to send message");
+        }
+        const message = await response.json();
+        const messageItem = createMessageItem(message);
+        messageList.appendChild(messageItem);
+
+
+
+
+    }catch(error){
+        console.error("Error sending message:", error);
+    }
 }
 
 loadChats();
