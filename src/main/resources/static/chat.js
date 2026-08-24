@@ -15,6 +15,15 @@ messageInput.addEventListener("keydown", (e) => {
     }
 });
 
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        findUser();
+    }
+});
+
 if (!token) {
     window.location.href = "index.html";
 }
@@ -180,6 +189,31 @@ async function sendMessage(){
     }catch(error){
         console.error("Error sending message:", error);
     }
+}
+
+async function findUser(){
+    const tag = searchInput.value.trim();
+    try{
+        const response = await fetch(`/api/users/search?tag=${encodeURIComponent(tag)}`, {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to find user: ${response.status}`);
+        }
+
+        const user = await response.json();
+
+        console.log(user);
+
+
+    }catch (error){
+        console.error("Error sending message:", error);
+    }
+
 }
 
 loadChats();
