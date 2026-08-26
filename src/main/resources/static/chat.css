@@ -37,13 +37,20 @@
 
 .search-input input{
     width: 100%;
+    border: 1px solid  #2A2A2A;
+
+}
+.search-input input:focus{
+    border-color: #FF6B35;
+    outline: none;
+    box-shadow: 0px 0 5px 3px rgba(255, 107, 53, 0.15);
 }
 
 #searchInput{
     background-color: var(--panel-color);
     color: var(--text-color);
     width: 100%;
-    border: 0.5px solid  #2A2A2A;
+    /*border: 0.5px solid  #2A2A2A;*/
     border-radius: 12px;
     padding: 12px 14px;
     font-size: 15px;
@@ -64,6 +71,11 @@ ul{
     grid-template-columns: 46px 1fr;
     align-items: center;
     gap: 12px;
+}
+#messageInput {
+    border: none;
+    outline: none;
+    box-shadow: none;
 }
 
 .chat-list {
@@ -136,10 +148,10 @@ ul{
 .composer-input{
     display: flex;
     background-color: var(--bg-color);
-    padding: 9px 0;
-    border-radius: 12px;
+    border-radius: 50px;
     padding: 6px 6px 6px 18px;
     border: 1px solid var(--panel-color);
+    margin: 0px 40px;
 }
 
 .composer-input textarea{
