@@ -2,16 +2,29 @@ const token = localStorage.getItem("token");
 
 const chatList = document.getElementById("chat-list")
 const messageList = document.getElementById("message-list")
+// DELETE LATER
+const chatArea = document.getElementById("chatArea");
+
 let activeChat = null;
 let activeChatUserId = null;
+let temporaryUser = null;
 
 const messageInput = document.getElementById("messageInput");
 const submitBtn = document.getElementById("submitBtn");
-submitBtn.addEventListener("click", () => sendMessage());
+// submitBtn.addEventListener("click", () => sendMessage());
+// messageInput.addEventListener("keydown", (e) => {
+//     if (e.key === "Enter" && !e.shiftKey) {
+//         e.preventDefault();
+//         sendMessage();
+//     }
+// });
+
+submitBtn.addEventListener("click", handleSend);
+
 messageInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
-        sendMessage();
+        handleSend();
     }
 });
 
@@ -29,6 +42,9 @@ if (!token) {
 }
 
 async function loadChats() {
+    // DELETE LATER
+    chatArea.classList.add("hidden");
+
     try {
         const response = await fetch("/api/chats", {
             headers: {
@@ -50,6 +66,15 @@ async function loadChats() {
 
         console.log(chats);
         renderChats(chats);
+        if(temporaryUser){
+            for (let i = 0; i < chats.length; i++) {
+                const chat = chats[i];
+                if(chat.username === temporaryUser.username){
+                    openChat(chat)
+                }
+            }
+
+        }
 
     } catch (error) {
         console.error(error);
@@ -99,18 +124,49 @@ const navbar = document.getElementById("navbar")
 function openChat(chat) {
     activeChat = chat;
     activeChatUserId = chat.userId;
-    renderNavbar(chat)
-    loadmessages(chat.chatId)
+    temporaryUser = null;
+    //renderNavbar(chat)
+    renderChatArea(chat.username, false);
+    //loadmessages(chat.chatId)
 }
 
-function renderNavbar(chat){
-    navbar.querySelector(".avatar-username").textContent =  chat.username.slice(0, 2).toUpperCase();
-    navbar.querySelector(".chat-name").textContent = chat.username;
+// function renderNavbar(chat){
+//     navbar.querySelector(".avatar-username").textContent =  chat.username.slice(0, 2).toUpperCase();
+//     navbar.querySelector(".chat-name").textContent = chat.username;
+//
+//
+// }
 
+function renderChatArea(username, isTemporary){
+    navbar.querySelector(".avatar-username").textContent =  username.slice(0, 2).toUpperCase();
+    navbar.querySelector(".chat-name").textContent = username;
+    chatArea.classList.remove("hidden");
+    if (!isTemporary){
+        // submitBtn.addEventListener("click", () => sendMessage());
+        // messageInput.addEventListener("keydown", (e) => {
+        //     if (e.key === "Enter" && !e.shiftKey) {
+        //         e.preventDefault();
+        //         sendMessage();
+        //     }
+        // });
+        loadmessages(activeChat.chatId)
 
+    }else{
+        // submitBtn.addEventListener("click", () => sendFirstMessage());
+        // messageInput.addEventListener("keydown", (e) => {
+        //     if (e.key === "Enter" && !e.shiftKey) {
+        //         e.preventDefault();
+        //         sendMessage();
+        //     }
+        // });
+        loadmessages();
+    }
 }
 
 async function loadmessages(chatId){
+    if (chatId == null) {
+        messageList.replaceChildren();
+    }
     try{
         const response = await fetch(`/api/messages/chat/${chatId}`, {
             method: "GET",
@@ -160,7 +216,16 @@ function createMessageItem(message){
 
 
 }
+async function handleSend() {
+    if (temporaryUser) {
+        await sendFirstMessage();
+        return;
+    }
 
+    if (activeChat) {
+        await sendMessage();
+    }
+}
 async function sendMessage(){
     const content = messageInput.value.trim();
     if (!content) return;
@@ -191,6 +256,40 @@ async function sendMessage(){
     }
 }
 
+async function sendFirstMessage(){
+    const content = messageInput.value.trim();
+    if (!content) return;
+    if (!temporaryUser) return;
+
+    try{
+        const response = await fetch("/api/messages/startchat", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                recipientId: temporaryUser.id,
+                content: content
+            })
+        });
+        if (!response.ok) {
+            throw new Error("Failed to start chat");
+        }
+
+        const message = await response.json();
+
+        console.log(message);
+
+        loadChats();
+
+
+    }catch (error){
+        console.error("Error sending message:", error);
+    }
+
+}
+
 async function findUser(){
     const tag = searchInput.value.trim();
     try{
@@ -208,6 +307,10 @@ async function findUser(){
         const user = await response.json();
 
         console.log(user);
+        temporaryUser = user;
+        activeChat =null;
+        renderChatArea(user.username, true);
+
 
 
     }catch (error){
