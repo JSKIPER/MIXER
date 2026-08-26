@@ -4,6 +4,7 @@ const chatList = document.getElementById("chat-list")
 const messageList = document.getElementById("message-list")
 // DELETE LATER
 const chatArea = document.getElementById("chatArea");
+const messageArea = document.querySelector(".message-area");
 
 let activeChat = null;
 let activeChatUserId = null;
@@ -127,6 +128,7 @@ function openChat(chat) {
     temporaryUser = null;
     //renderNavbar(chat)
     renderChatArea(chat.username, false);
+
     //loadmessages(chat.chatId)
 }
 
@@ -196,6 +198,7 @@ function renderMessages(messages){
         const messageItem = createMessageItem(message);
         messageList.appendChild(messageItem);
     });
+    messageArea.scrollTop = messageArea.scrollHeight;
 
 }
 
