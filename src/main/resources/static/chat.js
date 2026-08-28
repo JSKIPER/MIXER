@@ -9,6 +9,7 @@ const messageArea = document.querySelector(".message-area");
 let activeChat = null;
 let activeChatUserId = null;
 let temporaryUser = null;
+let stompClient = null;
 
 const messageInput = document.getElementById("messageInput");
 const submitBtn = document.getElementById("submitBtn");
@@ -70,7 +71,7 @@ async function loadChats() {
         if(temporaryUser){
             for (let i = 0; i < chats.length; i++) {
                 const chat = chats[i];
-                if(chat.username === temporaryUser.username){
+                if(chat.userId === temporaryUser.id){
                     openChat(chat)
                 }
             }
@@ -168,6 +169,7 @@ function renderChatArea(username, isTemporary){
 async function loadmessages(chatId){
     if (chatId == null) {
         messageList.replaceChildren();
+        return;
     }
     try{
         const response = await fetch(`/api/messages/chat/${chatId}`, {
@@ -235,7 +237,7 @@ async function sendMessage(){
     if (!activeChat) return;
 
     try{
-        response = await fetch(`/api/messages/chat/${activeChat.chatId}`, {
+        const response = await fetch(`/api/messages/chat/${activeChat.chatId}`, {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${token}`,
@@ -321,5 +323,53 @@ async function findUser(){
     }
 
 }
+function connectWebSocket() {
+    stompClient = new StompJs.Client({
+        webSocketFactory: () => new SockJS(`${window.location.origin}/ws`),
 
+        connectHeaders: {
+            Authorization: `Bearer ${token}`
+        },
+
+        reconnectDelay: 5000,
+
+        debug: () => {
+        }
+    });
+
+    stompClient.onConnect = () => {
+        console.log("WebSocket connected");
+
+        stompClient.subscribe("/user/queue/messages", (frame) => {
+            const message = JSON.parse(frame.body);
+
+            receiveMessage(message);
+        });
+    };
+
+    stompClient.onStompError = (frame) => {
+        console.error("WebSocket error:", frame.headers["message"]);
+    };
+
+    stompClient.onWebSocketError = (error) => {
+        console.error("WebSocket connection error:", error);
+    };
+
+    stompClient.activate();
+}
+
+function receiveMessage(message) {
+    console.log("Received real-time message:", message);
+
+    if (activeChat && message.chatId === activeChat.chatId) {
+        const messageItem = createMessageItem(message);
+        messageList.appendChild(messageItem);
+
+        messageArea.scrollTop = messageArea.scrollHeight;
+        return;
+    }
+
+    loadChats();
+}
+connectWebSocket();
 loadChats();
