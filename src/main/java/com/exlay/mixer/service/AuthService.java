@@ -12,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -19,8 +22,16 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private static final List<String> AVATAR_THEMES =
+            List.of("orange", "blue", "pink", "green", "purple", "yellow");
 
+    private String randomAvatarTheme() {
+        return AVATAR_THEMES.get(
+                ThreadLocalRandom.current().nextInt(AVATAR_THEMES.size())
+        );
+    }
     public AuthResponse register(RegisterRequest registerRequest) {
+
         if(userRepository.existsByEmail(registerRequest.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
@@ -28,10 +39,11 @@ public class AuthService {
         if(userRepository.existsByTag(registerRequest.getTag())) {
             throw new RuntimeException("Tag already exists");
         }
-
+        String avatar = randomAvatarTheme();
         User user = User.builder().username(registerRequest.getUsername())
                 .email(registerRequest.getEmail())
                 .tag(registerRequest.getTag())
+                .profilePhotoId(avatar)
                 .password(passwordEncoder.encode(registerRequest.getPassword()))
                 .build();
 

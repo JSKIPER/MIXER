@@ -177,7 +177,7 @@ ul{
 }
 
 .avatar{
-    background: linear-gradient(135deg, #FF6B35, #C7451D);
+    /*background: linear-gradient(135deg, #FF6B35, #C7451D);*/
     width: 46px;
     height: 46px;
     border-radius: 50%;
@@ -246,3 +246,37 @@ ul{
     line-height: 1.45;
 }
 
+/*.time{*/
+/*    font-size: 10.5px;*/
+/*    opacity: 0.65;*/
+/*    margin-top: 4px;*/
+/*    text-align: right;*/
+/*}*/
+.buble-in,
+.buble-out {
+    display: inline-block;
+}
+
+.time {
+    float: right;
+    margin-left: 10px;
+    margin-top: 6px;
+    font-size: 11px;
+    opacity: 0.6;
+    white-space: nowrap;
+}
+
+.chat-meta {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-name {
+    font-weight: 600;
+}
+
+.chat-last-message {
+    color: #888;
+    font-size: 13px;
+    margin-top: 4px;
+}

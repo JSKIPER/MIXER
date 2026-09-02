@@ -23,15 +23,16 @@ public class ChatService {
     public List<ChatResponse> getUserChats(String email) {
         User currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        List<Chat> chats = chatRepository.findChatsByUserId(currentUser.getId());
+        List<Chat> chats = chatRepository.findChatsByUserIdOrderByLastMessageAtDesc(currentUser.getId());
         List<ChatResponse> chatResponses = new ArrayList<>();
         for(int i=0;i<chats.size();i++){
             List<ChatParticipant> ChatParticipant = chatParticipantRepository.findByChatIdAndUserIdNot(chats.get(i).getId(), currentUser.getId());
             Long anotherUserId = ChatParticipant.get(0).getUser().getId();
+            String anotherUserAvatarId = ChatParticipant.get(0).getUser().getProfilePhotoId();
             String anotherUsername = ChatParticipant.get(0).getUser().getUsername();
 
             chatResponses.add(
-                    new ChatResponse(chats.get(i).getId(),anotherUserId,anotherUsername)
+                    new ChatResponse(chats.get(i).getId(),anotherUserId,anotherUsername,anotherUserAvatarId)
             );
 
         }

@@ -38,4 +38,11 @@ public interface ChatRepository extends JpaRepository<Chat, Long> {
             @Param("firstUserId") Long firstUserId,
             @Param("secondUserId") Long secondUserId
     );
+    @Query("""
+        SELECT participant.chat
+        FROM ChatParticipant participant
+        WHERE participant.user.id = :userId
+        ORDER BY participant.chat.lastMessageAt DESC
+        """)
+    List<Chat> findChatsByUserIdOrderByLastMessageAtDesc(Long userId);
 }

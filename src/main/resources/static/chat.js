@@ -5,7 +5,9 @@ const messageList = document.getElementById("message-list")
 // DELETE LATER
 const chatArea = document.getElementById("chatArea");
 const messageArea = document.querySelector(".message-area");
+const navbarAvatar = document.getElementById("navbar-avatar");
 
+let chatsList = null;
 let activeChat = null;
 let activeChatUserId = null;
 let temporaryUser = null;
@@ -65,6 +67,7 @@ async function loadChats() {
         }
 
         const chats = await response.json();
+        chatsList = chats;
 
         console.log(chats);
         renderChats(chats);
@@ -98,9 +101,11 @@ function createChatItem(chat) {
 
     const avatar = document.createElement("div");
     avatar.classList.add("avatar");
+    avatar.classList.add(renderAvatar(chat.profilePhotoId));
 
     const avatarUsername = document.createElement("span");
     avatarUsername.classList.add("avatar-username");
+
     avatarUsername.textContent = chat.username.slice(0, 2).toUpperCase();
 
     const chatMeta = document.createElement("div");
@@ -122,13 +127,52 @@ function createChatItem(chat) {
 
 
 }
+function renderAvatar(profilePhotoId){
+    if (profilePhotoId === "orange") {
+        return "avatar--orange";
+    }
+
+    if (profilePhotoId === "blue") {
+        return "avatar--blue";
+    }
+
+    if (profilePhotoId === "pink") {
+        return "avatar--pink";
+    }
+
+    if (profilePhotoId === "green") {
+        return "avatar--green";
+    }
+
+    if (profilePhotoId === "purple") {
+        return "avatar--purple";
+    }
+
+    if (profilePhotoId === "yellow") {
+        return "avatar--yellow";
+    }
+}
 const navbar = document.getElementById("navbar")
 function openChat(chat) {
     activeChat = chat;
     activeChatUserId = chat.userId;
     temporaryUser = null;
     //renderNavbar(chat)
-    renderChatArea(chat.username, false);
+    for (let i = 0; i < chatsList.length; i++) {
+        if (chatsList[i].chatId === chat.chatId) {
+            // 1. Select the correct chat item (Note: using [i] instead of [1] targets the matching item from your loop)
+            const chatItem = document.querySelectorAll('.chat-item')[i];
+
+            // 2. Find the message span inside this specific list item
+            const lastMessageSpan = chatItem.querySelector('.chat-last-message');
+
+            // 3. Check if it actually exists, then delete it
+            if (lastMessageSpan) {
+                lastMessageSpan.remove();
+            }
+        }
+    }
+    renderChatArea(chat.username, false, chat.profilePhotoId);
 
     //loadmessages(chat.chatId)
 }
@@ -140,9 +184,14 @@ function openChat(chat) {
 //
 // }
 
-function renderChatArea(username, isTemporary){
+function renderChatArea(username, isTemporary, profilePhotoId){
+
     navbar.querySelector(".avatar-username").textContent =  username.slice(0, 2).toUpperCase();
     navbar.querySelector(".chat-name").textContent = username;
+    navbarAvatar.className = "";
+    navbarAvatar.classList.add("avatar");
+    navbarAvatar.classList.add(renderAvatar(profilePhotoId));
+
     chatArea.classList.remove("hidden");
     if (!isTemporary){
         // submitBtn.addEventListener("click", () => sendMessage());
@@ -207,6 +256,15 @@ function renderMessages(messages){
 function createMessageItem(message){
     const messageItem = document.createElement("li");
     const bubble = document.createElement("div");
+    const time = document.createElement("div");
+    time.classList.add("time");
+    const formatted =
+        message.sentAt.slice(8, 10) + "." +
+        message.sentAt.slice(5, 7) + "." +
+        message.sentAt.slice(0, 4) + ", " +
+        message.sentAt.slice(11, 16);
+
+    time.textContent = formatted;
     if(message.senderId === activeChatUserId){
         messageItem.classList.add("message-in");
         bubble.classList.add("buble-in");
@@ -216,7 +274,9 @@ function createMessageItem(message){
         bubble.classList.add("buble-out");
         bubble.textContent = message.content;
     }
+    bubble.appendChild(time);
     messageItem.appendChild(bubble);
+
     return messageItem;
 
 
@@ -252,6 +312,8 @@ async function sendMessage(){
         const message = await response.json();
         const messageItem = createMessageItem(message);
         messageList.appendChild(messageItem);
+        messageArea.scrollTop = messageArea.scrollHeight;
+        messageInput.value = "";
 
 
 
@@ -285,6 +347,7 @@ async function sendFirstMessage(){
         const message = await response.json();
 
         console.log(message);
+        messageInput.value = "";
 
         loadChats();
 
@@ -360,16 +423,34 @@ function connectWebSocket() {
 
 function receiveMessage(message) {
     console.log("Received real-time message:", message);
-
+    // loadChats();
     if (activeChat && message.chatId === activeChat.chatId) {
         const messageItem = createMessageItem(message);
         messageList.appendChild(messageItem);
 
         messageArea.scrollTop = messageArea.scrollHeight;
         return;
+    }else{
+        for(let i=0;i<chatsList.length;i++){
+            if(chatsList[i].chatId === message.chatId){
+                const chatItem = document.querySelectorAll('.chat-item')[i];
+                const newMessageSpan = document.createElement("span");
+                const lastMessageSpan = chatItem.querySelector('.chat-last-message');
+                if(!lastMessageSpan){
+                    newMessageSpan.classList.add("chat-last-message");
+                    newMessageSpan.textContent = "New Message";
+                    const chatMetaDiv = chatItem.querySelector('.chat-meta');
+                    chatMetaDiv.appendChild(newMessageSpan);
+                }
+
+
+            }
+        }
+
     }
 
-    loadChats();
+
+
 }
 connectWebSocket();
 loadChats();

@@ -59,6 +59,9 @@ public class MessageService {
 
         Message message = saveMessage(chat, sender, request.getContent());
 
+        chat.setLastMessageAt(message.getSentAt());
+        chatRepository.save(chat);
+
         MessageResponse messageResponse = toMessageResponse(message);
 
         notifyRecipient(recipient, messageResponse);
@@ -81,7 +84,12 @@ public class MessageService {
                 .orElseThrow(() -> new RuntimeException("Chat not found"));
 
         Message message = saveMessage(chat, sender, request.getContent());
+
+        chat.setLastMessageAt(message.getSentAt());
+        chatRepository.save(chat);
+
         MessageResponse messageResponse = toMessageResponse(message);
+
         User recipient = getRecipient(chatId, sender.getId());
         notifyRecipient(recipient, messageResponse);
         return messageResponse;

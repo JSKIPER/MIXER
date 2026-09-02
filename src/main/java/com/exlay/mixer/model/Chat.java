@@ -3,6 +3,8 @@ package com.exlay.mixer.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name="chats")
 @Getter
@@ -17,6 +19,7 @@ public class Chat {
 
     @Column(length = 100)
     private String name;
+    private LocalDateTime lastMessageAt;
 
 
 }

@@ -23,3 +23,25 @@ body {
     --panel-color: #2A2A2A;
     --text-color: white;
 }
+
+.avatar--orange {
+    background:linear-gradient(135deg,#FF6B35,#C7451D)
+}
+
+.avatar--blue {
+    background:linear-gradient(135deg,#5B8DEF,#3A63C4)
+}
+
+.avatar--pink {
+    background:linear-gradient(135deg,#F0568C,#C23B6C)
+}
+.avatar--green {
+    background: linear-gradient(135deg,#3ECF8E,#259D68)
+}
+
+.avatar--purple {
+    background:linear-gradient(135deg,#9B7EF0,#6E4FC2)
+}
+.avatar--yellow {
+    background:linear-gradient(135deg,#F0B155,#D08A2E)
+}
