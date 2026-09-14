@@ -2,10 +2,12 @@ const token = localStorage.getItem("token");
 
 const chatList = document.getElementById("chat-list")
 const messageList = document.getElementById("message-list")
-// DELETE LATER
 const chatArea = document.getElementById("chatArea");
 const messageArea = document.querySelector(".message-area");
 const navbarAvatar = document.getElementById("navbar-avatar");
+const messageInput = document.getElementById("messageInput");
+const submitBtn = document.getElementById("submitBtn");
+const searchInput = document.getElementById("searchInput");
 
 let chatsList = null;
 let activeChat = null;
@@ -13,27 +15,16 @@ let activeChatUserId = null;
 let temporaryUser = null;
 let stompClient = null;
 
-const messageInput = document.getElementById("messageInput");
-const submitBtn = document.getElementById("submitBtn");
-// submitBtn.addEventListener("click", () => sendMessage());
-// messageInput.addEventListener("keydown", (e) => {
-//     if (e.key === "Enter" && !e.shiftKey) {
-//         e.preventDefault();
-//         sendMessage();
-//     }
-// });
+
+
 
 submitBtn.addEventListener("click", handleSend);
-
 messageInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         handleSend();
     }
 });
-
-const searchInput = document.getElementById("searchInput");
-
 searchInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
@@ -46,8 +37,6 @@ if (!token) {
 }
 
 async function loadChats() {
-    // DELETE LATER
-    chatArea.classList.add("hidden");
 
     try {
         const response = await fetch("/api/chats", {
@@ -160,13 +149,10 @@ function openChat(chat) {
     //renderNavbar(chat)
     for (let i = 0; i < chatsList.length; i++) {
         if (chatsList[i].chatId === chat.chatId) {
-            // 1. Select the correct chat item (Note: using [i] instead of [1] targets the matching item from your loop)
-            const chatItem = document.querySelectorAll('.chat-item')[i];
 
-            // 2. Find the message span inside this specific list item
+            const chatItem = document.querySelectorAll('.chat-item')[i];
             const lastMessageSpan = chatItem.querySelector('.chat-last-message');
 
-            // 3. Check if it actually exists, then delete it
             if (lastMessageSpan) {
                 lastMessageSpan.remove();
             }
@@ -174,15 +160,9 @@ function openChat(chat) {
     }
     renderChatArea(chat.username, false, chat.profilePhotoId);
 
-    //loadmessages(chat.chatId)
+
 }
 
-// function renderNavbar(chat){
-//     navbar.querySelector(".avatar-username").textContent =  chat.username.slice(0, 2).toUpperCase();
-//     navbar.querySelector(".chat-name").textContent = chat.username;
-//
-//
-// }
 
 function renderChatArea(username, isTemporary, profilePhotoId){
 
@@ -194,23 +174,9 @@ function renderChatArea(username, isTemporary, profilePhotoId){
 
     chatArea.classList.remove("hidden");
     if (!isTemporary){
-        // submitBtn.addEventListener("click", () => sendMessage());
-        // messageInput.addEventListener("keydown", (e) => {
-        //     if (e.key === "Enter" && !e.shiftKey) {
-        //         e.preventDefault();
-        //         sendMessage();
-        //     }
-        // });
         loadmessages(activeChat.chatId)
 
     }else{
-        // submitBtn.addEventListener("click", () => sendFirstMessage());
-        // messageInput.addEventListener("keydown", (e) => {
-        //     if (e.key === "Enter" && !e.shiftKey) {
-        //         e.preventDefault();
-        //         sendMessage();
-        //     }
-        // });
         loadmessages();
     }
 }
@@ -423,7 +389,6 @@ function connectWebSocket() {
 
 function receiveMessage(message) {
     console.log("Received real-time message:", message);
-    // loadChats();
     if (activeChat && message.chatId === activeChat.chatId) {
         const messageItem = createMessageItem(message);
         messageList.appendChild(messageItem);

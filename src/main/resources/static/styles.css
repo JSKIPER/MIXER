@@ -22,6 +22,8 @@ body {
     --bg-color: #18181B;
     --panel-color: #2A2A2A;
     --text-color: white;
+    --color-orange-accent: #FF6B35;
+    --color-text-secondary: #9AA0AC;
 }
 
 .avatar--orange {

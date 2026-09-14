@@ -7,33 +7,33 @@
 }
 
 .auth-wrap {
-    background: #18181B;
+    background: var(--bg-color);
     width: min(100%, 400px);
     padding: 20px 32px 32px;
-    border: 1px solid #2A2A2A;
+    border: 1px solid var(--panel-color);
     border-radius: 12px;
 }
 label {
     display: block;
     font-size: 12.5px;
     font-weight: 600;
-    color: #9AA0AC;
+    color: var(--color-text-secondary);
     margin-bottom: 7px;
     letter-spacing: 0.01em;
 }
 
 input{
-    background: #18181B;
+    background: var(--bg-color);
     color: white;
     width: 100%;
-    border: 1px solid #2A2A2A;
+    border: 1px solid var(--panel-color);
     border-radius: 12px;
     padding: 12px 14px;
     font-size: 15px;
 }
 
 button{
-    background: #FF6B35;
+    background: var(--color-orange-accent);
     width: 100%;
     color: white;
     border: none;
@@ -58,7 +58,7 @@ button:hover{
 .username-form input:focus,
 .tag-form input:focus,
 .password-form input:focus {
-    border-color: #FF6B35;
+    border-color: var(--color-orange-accent);
     outline: none;
     box-shadow: 0px 0 5px 3px rgba(255, 107, 53, 0.15);
 }
@@ -69,11 +69,11 @@ button:hover{
     text-align: left;
 }
 .register-link span{
-    color: #9AA0AC;
+    color: var(--color-text-secondary);
 }
 
 .register-link a{
-    color: #FF6B35;
+    color: var(--color-orange-accent);
     text-decoration: none;
     font-weight: 500;
 }
